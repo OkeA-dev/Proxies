@@ -5,7 +5,7 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
-contract BoxV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+contract BoxV2 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
     uint256 internal value;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
