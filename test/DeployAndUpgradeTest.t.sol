@@ -8,28 +8,31 @@ import {DeployBox} from "../script/DeployBox.s.sol";
 import {UpgradeBox} from "../script/UpgradeBox.s.sol";
 
 contract TestDeployAndUpgrade is Test {
+    address public proxy;
 
-    address boxV1;
-    address boxV2;
-    UpgradeBox upgrader;
+    UpgradeBox public upgrader;
+    DeployBox public deployer;
+    address public OWNER = makeAddr("owner");
 
     function setUp() public {
-        DeployBox deployer = new DeployBox();
+        deployer = new DeployBox();
         upgrader = new UpgradeBox();
-        boxV1 = deployer.run();
-        
+        proxy = deployer.run();
     }
 
     function testBoxVersion() public view {
         uint256 expectedVersion = 1;
-        uint256 actualVersion = BoxV1(boxV1).version();
+        uint256 actualVersion = BoxV1(proxy).version();
 
         assertEq(expectedVersion, actualVersion);
     }
 
-    function testUpgradeBoxToVersionTwo() public view{
+    function testUpgradeBoxToVersionTwo() public {
+        BoxV2 boxV2 = new BoxV2();
         uint256 expectedVersion = 2;
-        uint256 actualVersion = BoxV2(boxV2).version();
+        
+        upgrader.upgradeBox(proxy, address(boxV2));
+        uint256 actualVersion = BoxV2(proxy).version();
 
         assertEq(expectedVersion, actualVersion);
     }
